@@ -1,38 +1,39 @@
 import React, {useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
-import Controller from "./Controller";
-import connect from "react-redux";
+import {getColumns} from "./redux/action";
+import {connect} from "react-redux";
+import CreateTask from "./CreateTask";
+import CreateColumn from "./CreateColumn";
+import Column from "./Column"
+import {Container} from "reactstrap";
 
 function App(props) {
 
     useEffect(()=>{
         console.log('Hello useEffect')
-        props.getList()
+        props.getAllColumns()
     },[]);
 
   return (
-    <div>
+    <div className="App">
       <Container >
-        <Row>
-        <Controller/>
-
-
-
-        </Row>
-      </Container>
-
+        <CreateTask/>{' '}
+        <CreateColumn/>
+        <hr/>
+            {props.columns.map(el =><Column key={el._id} columns={el}/>)}
+        </Container>
     </div>
   );
 }
 const mapStateToProps = (state) => ({
-    tasks: state.tasks,
+    columns: state.columnList,
 
 });
 
 const mapDispatchToProps = (dispatch) => ({
 
-    getList: () => dispatch(getTodos())
+    getAllColumns: () => dispatch(getColumns())
 });
 
 
