@@ -9,31 +9,31 @@ import {deleteColumn, getTasks} from "./redux/action";
 
 function Column(props) {
 
-const {columnList} = props
+const {column} = props
 
     useEffect(()=>{
         props.getAllTasks()
     },[]);
 
 
-// const newTaskList = props.tasks.filter(el => el.status === columnList.status)
+// const newTaskList = props.cards.filter(el => el.status === column.status)
 //     console.log(newTaskList)
 
 
     return (
         <div>
             <Col>
-                {/*<h3>{columnList.title}</h3>*/}
-                {props.tasks
+                <h3>{column.title}</h3>
+                {props.cards
                     .sort((a,b) =>b.priority - a.priority)
-                    .filter(el => el.status === columnList.status)
-                    .map(el =><Task key={el._id} taskList={el}/>)}
-                    <hr/>
-                {columnList.status !== 'todo' &&
-                columnList.status !== 'progress' &&
-                columnList.status !== 'review' &&
-                columnList.status !== 'done' &&
-                <Button onClick={() => props.deleteColumn(columnList._id)}>Delete column</Button>}
+                    .filter(el => el.status === column.status)
+                    .map(el =><Task key={el._id} card={el}/>)}
+                <hr/>
+                {column.status !== 'todo' &&
+                column.status !== 'progress' &&
+                column.status !== 'review' &&
+                column.status !== 'done' &&
+                <Button onClick={() => props.deleteColumn(column._id)}>Delete column</Button>}
             </Col>
         </div>
     )
@@ -41,7 +41,7 @@ const {columnList} = props
 
 
 const mapStateToProps = (state) => ({
-    tasks: state.taskList
+    cards: state.card
 
 });
 

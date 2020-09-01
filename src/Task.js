@@ -8,11 +8,11 @@ import {deleteTask, editPriority, editStatus, editTask} from "./redux/action";
 
 function Task(props) {
 
-    const {taskList} = props
+    const {card} = props
 
     const [modalWindow, setModalWindow] = useState(false)
-    const [newName, setNewName] = useState(taskList.name)
-    const [newDescription, setNewDescription] = useState(taskList.description)
+    const [newName, setNewName] = useState(card.name)
+    const [newDescription, setNewDescription] = useState(card.description)
 
     const saveTaskHandler = (taskId) => {
         props.updateTask(taskId, newName, newDescription)
@@ -21,32 +21,32 @@ function Task(props) {
 
 
     const editPriority = (taskId, direction) =>{
-        let newPriority = direction === 'up' ? taskList.priority + 1 : taskList.priority - 1
+        let newPriority = direction === 'up' ? card.priority + 1 : card.priority - 1
         props.updatePriority(taskId, newPriority)
     }
 
     const editStatus = (taskId, direction) =>{
         let newStatus = direction === 'left'
             ?
-            props.columns[props.columns.findIndex(el => el.status === taskList.status) -1]
+            props.column[props.column.findIndex(el => el.status === card.status) -1]
             :
-            props.columns[props.columns.findIndex(el => el.status === taskList.status) +1]
+            props.column[props.column.findIndex(el => el.status === card.status) +1]
         props.updateStatus(taskId, newStatus.status)
     }
     const alertColors = ["success", "warning", "danger"]
 
-let firstStatus = props.columns[0].status
-let lastStatus = props.columns[props.columns.length - 1].status
+let firstStatus = props.column[0].status
+let lastStatus = props.column[props.column.length - 1].status
 return(
     <>
         <Card>
             <CardBody>
-            <Badge color={alertColors[taskList.priority]}>Priority: {taskList.priority} </Badge>{' '}
-                {taskList.priority !== 2 &&
-            <Button onClick={() =>editPriority(taskList._id, 'up')}>↑</Button>}
+            <Badge color={alertColors[card.priority]}>Priority: {card.priority} </Badge>{' '}
+                {card.priority !== 2 &&
+            <Button onClick={() =>editPriority(card._id, 'up')}>↑</Button>}
                 {' '}
-                {taskList.priority !== 0 &&
-            <Button onClick={() =>editPriority(taskList._id, 'down')}>↓</Button>}
+                {card.priority !== 0 &&
+            <Button onClick={() =>editPriority(card._id, 'down')}>↓</Button>}
             <hr/>
                 {modalWindow ? (
                     <>
@@ -54,22 +54,22 @@ return(
                         <Input value={newName} onChange={(e) =>setNewName(e.target.value)}/>
                     <strong>Description: </strong>
                         <Input value={newDescription} onChange={(e) =>setNewDescription(e.target.value)}/>
-                        <Button onClick={() =>saveTaskHandler(taskList._id)}>Save</Button>{' '}
+                        <Button onClick={() =>saveTaskHandler(card._id)}>Save</Button>{' '}
                         <Button onClick={() =>setModalWindow(false)}>Cancel</Button>{' '}
                     </>
                 ) : (
                     <>
                     <strong>Name:</strong>
-                    <CardTitle>{taskList.name}</CardTitle>
+                    <CardTitle>{card.name}</CardTitle>
                      <strong>Description:</strong>
-                    <CardText>{taskList.description}</CardText>
-                        {taskList !== firstStatus &&
-                        <Button onClick={() =>editStatus(taskList._id, 'left')}>←</Button>}
+                    <CardText>{card.description}</CardText>
+                        {card !== firstStatus &&
+                        <Button onClick={() =>editStatus(card._id, 'left')}>←</Button>}
                         {' '}
-                        {taskList.status !== lastStatus &&
-                        <Button onClick={()=>editStatus(taskList._id, 'rigth')}>→</Button>}
+                        {card.status !== lastStatus &&
+                        <Button onClick={()=>editStatus(card._id, 'rigth')}>→</Button>}
                         <Button onClick={()=> setModalWindow(true)}>Edit</Button>
-                        <Button onClick={()=>props.removeTask(taskList._id)}>Delete</Button>
+                        <Button onClick={()=>props.removeTask(card._id)}>Delete</Button>
                     </>
                 )}
             </CardBody>
@@ -80,7 +80,7 @@ return(
 
 
 const mapStateToProps = (state) => ({
-columns: state.columnList,
+column: state.column,
 });
 
 const mapDispatchToProps  =(dispatch) =>({

@@ -3,9 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
 import {connect} from 'react-redux';
 import {addTask} from "./redux/action";
-import {ModalHeader, Col, Input, Modal, Button, Row, ModalBody, ModalFooter }from "reactstrap";
-
-
+import {ModalHeader, Col, Input, Modal, Button, Row, ModalBody, ModalFooter} from "reactstrap";
 
 
 function CreateTask(props) {
@@ -21,8 +19,8 @@ const createNewTask =() =>{
     setModalWindow(false)
     setNewName('')
     setNewDescription('')
-    setNewStatus('')
-    setNewPriority('')
+    setNewStatus()
+    setNewPriority()
 }
 
 
@@ -74,7 +72,7 @@ return (
 )}
 
 const mapStateToProps = (state) => ({
-    columns: state.columnList,
+    columns: state.column,
 
 });
 

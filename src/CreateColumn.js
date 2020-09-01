@@ -3,8 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
 import {connect} from 'react-redux';
 import {addColumn} from "./redux/action";
-import {Modal} from "bootstrap/js/src";
-import {Button} from "reactstrap";
+import {Button, Modal} from "reactstrap";
 import {ModalHeader} from "reactstrap";
 import {Input} from "reactstrap";
 import {ModalBody} from "reactstrap";

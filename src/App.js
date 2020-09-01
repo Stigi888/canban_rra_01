@@ -6,7 +6,7 @@ import {connect} from "react-redux";
 import CreateTask from "./CreateTask";
 import CreateColumn from "./CreateColumn";
 import Column from "./Column"
-import {Container} from "reactstrap";
+import {Row, Container} from "reactstrap";
 
 function App(props) {
 
@@ -18,16 +18,20 @@ function App(props) {
   return (
     <div className="App">
       <Container >
+          <Row>
         <CreateTask/>{' '}
         <CreateColumn/>
+          </Row>
         <hr/>
-            {props.columns.map(el =><Column key={el._id} columns={el}/>)}
+        <Row>
+            {props.column.map(el =><Column key={el._id} column={el}/>)}
+        </Row>
         </Container>
     </div>
   );
 }
 const mapStateToProps = (state) => ({
-    columns: state.columnList,
+    column: state.column,
 
 });
 

@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export function getTasks(){
     return(dispatch) =>{
-        axios.get(`https://canban-server.herokuapp.com/tasks`)
+        axios.get(`https://canban-server.herokuapp.com/card`)
             .then(result => {
                 dispatch({
                     type: 'GET_TASKS',
@@ -32,8 +32,7 @@ export function getColumns(){
 
 export function addTask(name, description, priority, status){
     return(dispatch) => {
-
-        axios.post('https://canban-server.herokuapp.com/task', {name, description, priority, status})
+        axios.post('https://canban-server.herokuapp.com/card', {name, description, priority, status})
             .then(result =>{
                 console.log(result.data)
                 dispatch(getTasks())
@@ -46,7 +45,7 @@ export function addTask(name, description, priority, status){
 
 export function addColumn(title, status){
     return(dispatch) => {
-        axios.post('https://canban-server.herokuapp.com/task', {title, status})
+        axios.post('https://canban-server.herokuapp.com/column', {title, status})
             .then(result =>{
                 console.log(result.data)
                 dispatch(getColumns())
@@ -59,7 +58,7 @@ export function addColumn(title, status){
 
 export function deleteTask(taskId){
     return(dispatch) =>{
-        axios.delete(`https://canban-server.herokuapp.com/task/${taskId}`)
+        axios.delete(`https://canban-server.herokuapp.com/card/${taskId}`)
             .then(result => {
                 console.log(result.data)
                 dispatch(getTasks())
@@ -81,7 +80,7 @@ export function deleteColumn(columnId){
 
 export function editTask(taskId, newName, newDescription){
     return(dispatch)=>{
-        axios.patch(`https://canban-server.herokuapp.com/task/${taskId}`, {name: newName, description: newDescription})
+        axios.patch(`https://canban-server.herokuapp.com/card/${taskId}`, {name: newName, description: newDescription})
             .then(result =>{
                 console.log(result.data)
                 dispatch(getTasks())
@@ -92,7 +91,7 @@ export function editTask(taskId, newName, newDescription){
 
 export function editPriority (taskId, priority) {
     return(dispatch) =>{
-        axios.patch(`https://canban-server.herokuapp.com/task/${taskId}`,{priority})
+        axios.patch(`https://canban-server.herokuapp.com/card/${taskId}`,{priority})
         .then(result =>{
             console.log(result.data)
             dispatch(getTasks())
@@ -103,7 +102,7 @@ export function editPriority (taskId, priority) {
 
 export function editStatus(taskId, status){
     return (dispatch) =>{
-        axios.patch(`https://canban-server.herokuapp.com/task/${taskId}`,{status})
+        axios.patch(`https://canban-server.herokuapp.com/card/${taskId}`,{status})
             .then(result =>{
                 console.log(result.data)
             dispatch(getTasks())
