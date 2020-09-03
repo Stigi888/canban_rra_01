@@ -6,33 +6,34 @@ import {connect} from "react-redux";
 import {deleteTask, editPriority, editStatus, editTask} from "./redux/action";
 
 
-function Task(props) {
+function Task(props) {          //Компонент отображающий и изменяющий Карточку
 
-    const {card} = props
+    const {card} = props  //Принимаем массив карточек через пропсы!
 
-    const [modalWindow, setModalWindow] = useState(false)
-    const [newName, setNewName] = useState(card.name)
-    const [newDescription, setNewDescription] = useState(card.description)
+    const [modalWindow, setModalWindow] = useState(false) //useState контролирующий состояния МОДАЛЬНОГО ОКНА
+    const [newName, setNewName] = useState(card.name)               //useState контролирующий состояния NAME КАРТОЧКИ
+    const [newDescription, setNewDescription] = useState(card.description)  //useState контролирующий состояния DESCRIPTION КАРТОЧКИ
 
-    const saveTaskHandler = (taskId) => {
-        props.updateTask(taskId, newName, newDescription)
-        setModalWindow(false)
+    const saveTaskHandler = (taskId) => {                   //Функция Которая SAVE внесенные изменения в карточке и закрывает МОдальное окно
+        props.updateTask(taskId, newName, newDescription)   //Принимаем через props дествие updateTast которая применяется по выбранному ID и принимает аргументы для изменения и сохраняет их
+        setModalWindow(false)           //закрывает Модальное окно
     }
 
 
-    const editPriority = (taskId, direction) =>{
-        let newPriority = direction === 'up' ? card.priority + 1 : card.priority - 1
-        props.updatePriority(taskId, newPriority)
-    }
+    const editPriority = (taskId, direction) =>{    //функция изменения приоритета Card - принимает паратметры ID выбранной карточки и direction изменения priority
+        let newPriority = direction === 'up' ? card.priority + 1 : card.priority - 1  //Новая переменная с тернарным оператором : Если направляение(direction) имеем UP то прибавляем
+        props.updatePriority(taskId, newPriority)                   //к priority +1 в противном случае отнимает значение priority - 1
+    }                                           //Принимаем action updatePriority из mapDispatchToProps куда оно поступило из action.js
 
-    const editStatus = (taskId, direction) =>{
-        let newStatus = direction === 'left'
-            ?
-            props.column[props.column.findIndex(el => el.status === card.status) -1]
+    const editStatus = (taskId, direction) =>{ //меняет статус Карточки принимая атрибуты ID и направления(direction)
+        let newStatus = direction === 'left'    //Создаем переменную return которой зависит от выполнения условия тернарного оператора.
+            ?                                   //Если direction равно 'left' то Карточка меняе статус и сдвигается на индекс -1 - т.е. сдвигается
+            props.column[props.column.findIndex(el => el.status === card.status) -1] //на колонку с индексом слева(назад)
             :
-            props.column[props.column.findIndex(el => el.status === card.status) +1]
-        props.updateStatus(taskId, newStatus.status)
+            props.column[props.column.findIndex(el => el.status === card.status) +1]//Здесь сдвигается с индексом вправо +1
+        props.updateStatus(taskId, newStatus.status) //Применяется action принимая ID и переменная-функция с указанием на статус! Что бы применить Статус.
     }
+
     const alertColors = ["success", "warning", "danger"]
 
 let firstStatus = props.column[0].status
